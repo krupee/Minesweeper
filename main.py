@@ -1,5 +1,6 @@
 from gameboard import Game
 
+numberMines = 0
 
 def run():
     gameboard = initialize()
@@ -7,12 +8,13 @@ def run():
     #Setting up number of mines adjacent to cells
     #gameboard.mineindicator(size,size)
     i=0
-    while (i < 3):
+    while (not(gameboard.gameState(size,numberMines) )):
+        print()
+        print()
         print ('Current Board')
         gameboard.show()
         gameboard.gameOptions()
-        gameboard.show()
-        i=i+1
+        
 
 
 def initialize():
@@ -28,6 +30,7 @@ def initialize():
         try:
             mine_count = int(input('mines: '))
             if mine_count <= gird_size * gird_size:
+                numberMines = mine_count
                 break
             print(
                 f'mines should be less than number of cells ({gird_size*gird_size})')
