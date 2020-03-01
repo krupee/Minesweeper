@@ -5,7 +5,7 @@ def run():
     gameboard = initialize()
     size = gameboard.gird_size
     #Setting up number of mines adjacent to cells
-    gameboard.mineindicator(size,size)
+    #gameboard.mineindicator(size,size)
     i=0
     while (i < 3):
         print ('Current Board')

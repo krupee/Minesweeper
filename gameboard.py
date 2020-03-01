@@ -11,6 +11,10 @@ class Game:
 
         self.gird_size = gird_size
         self.mine_count = mine_count
+        self.cells = []
+        self.minesList = []
+        self.notMinesList = []
+        self.constraints = []
 
         rows = [0]*mine_count
         cols = [0]*mine_count
