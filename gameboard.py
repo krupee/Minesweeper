@@ -41,23 +41,30 @@ class Game:
             #self.grid_display[row][col] = 'M'
 
     def show(self):
-        for i in range(self.gird_size):
-            for j in range(self.gird_size):
-                if j == 0:
-                    print(i, end=' ')
-                print(self.grid_display[i][j], end=' ')
-            print()
-        print('  ', end='')
-        for i in range(self.gird_size):
-            print(i, end=' ')
-        print()
+        numString = ' '
+        s = ''
+    
+    #Display x - range
+        for i in range (0,self.gird_size):
+            numString = numString + ' ' + str(i)
+        print (numString)
+    
+    #Display Board
+        for r in range (0,self.gird_size):
+            s = str (r)
+            for c in range (0,self.gird_size):
+                s  = s + ' ' + str(self.grid_display[r][c])
+            print(s)    
+        return 
+
+    
 
     def uncoverCell(self,row,col):
         if (self.grid_display[row][col] == 'F'):
             return
     
-        elif (self.grid[row][col] != -1):        #Location picked  is not a bomb
-            print("here")
+        elif (self.grid[row][col] != -1):        #Location picked  is not a mine
+            
             self.grid_display[row][col] = self.grid[row][col]
         
         elif (self.grid[row][col] == -1):        #Location picked is a mine

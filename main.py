@@ -14,7 +14,7 @@ def run():
         print ('Current Board')
         gameboard.show()
         gameboard.gameOptions()
-        gameboard.show()
+        
 
 
 def initialize():
