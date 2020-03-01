@@ -1,9 +1,10 @@
 from random import randrange, seed
 
 Empty = 0
-Bomb = 1
+Bomb = -1
 Hide = '#'
 
+# Formatting for reference: .grid holds Empty:0 , Mine:-1 and .grid_display holds Empty:number, Mine:M , Flag: F
 
 class Game:
     def __init__(self, gird_size, mine_count):
@@ -49,3 +50,72 @@ class Game:
         for i in range(self.gird_size):
             print(i, end=' ')
         print()
+
+    def uncoverCell(self,row,col):
+        if (self.grid_display[row][col] == 'F'):
+            return
+    
+        elif (self.grid[row][col] != -1):        #Location picked  is not a bomb
+            print("here")
+            self.grid_display[row][col] = self.grid[row][col]
+        
+        elif (self.grid[row][col] == -1):        #Location picked is a mine
+            ## Mine exploded
+            self.grid_display = '*'
+            ## NEED TO FIGURE OUT WHAT TO DO IN THIS CASE
+            return
+
+    def mineindicator (self,row,col):
+      for r in range (0,row):
+        for c in range (0,col):
+            minecount = 0           #SET/RESET MINECOUNT BACK TO 0
+            if c > 0:
+                if (self.grid[r][c-1] == -1):       #Check Left
+                    minecount = minecount + 1
+                if r > 0:
+                    if (self.grid[r-1][c-1] == -1): #Check Top left
+                        minecount = minecount + 1
+            if r > 0:                           
+                if (self.grid[r-1][c] == -1):        #Check Up
+                    minecount = minecount + 1
+                if c < col-1:                                   #(col-1 b/c it does 0-4 if col is 5.
+                    if (self.grid[r-1][c+1] == -1): #Check Top Right
+                        minecount = minecount + 1
+            if c < col-1:
+                if (self.grid[r][c+1] == -1):        #Check Right
+                    minecount = minecount + 1
+                if r < row-1:
+                    if (self.grid[r+1][c+1] == -1):  #Check Bottom Right
+                        minecount = minecount + 1
+            if r < row-1:
+                if (self.grid[r+1][c] == -1):        #Check Down
+                    minecount = minecount + 1
+                if c > 0:
+                    if (self.grid[r+1][c-1] == -1):  #Check Bottom Left
+                        minecount = minecount + 1
+            if self.grid[r][c] != -1:        #If it isnt a bomb,determine mines around
+                self.grid[r][c] = minecount
+        return
+
+
+    def gameOptions(self):
+        decision = input('Would you like to flag or reveal a cell? (F-Flag,R-Reveal): ')
+        if (decision == 'F'):
+            location = input('Enter row and column (ex. 2,3): ')
+            row,col = location.split(",")
+            self.grid_display[int(row)][int(col)] = 'F'
+        elif (decision =='R'):
+            location = input('Enter row and column (ex. 2,3): ')
+            row,col = location.split(",")
+            row=int(row)
+            col=int(col)
+            self.uncoverCell(int(row),int(col))   
+        return
+    
+    
+
+
+
+
+
+

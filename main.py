@@ -4,7 +4,15 @@ from gameboard import Game
 def run():
     gameboard = initialize()
     size = gameboard.gird_size
-    gameboard.show()
+    #Setting up number of mines adjacent to cells
+    gameboard.mineindicator(size,size)
+    i=0
+    while (i < 3):
+        print ('Current Board')
+        gameboard.show()
+        gameboard.gameOptions()
+        gameboard.show()
+        i=i+1
 
 
 def initialize():
