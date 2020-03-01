@@ -43,17 +43,25 @@ class Game:
     def show(self):
         numString = ' '
         s = ''
-    
+        i=0
+        r=0
+        c=0
+        
     #Display x - range
-        for i in range (0,self.gird_size):
+        for i in range (self.gird_size):
             numString = numString + ' ' + str(i)
         print (numString)
     
     #Display Board
-        for r in range (0,self.gird_size):
-            s = str (r)
-            for c in range (0,self.gird_size):
-                s  = s + ' ' + str(self.grid_display[r][c])
+        for r in range (self.gird_size):
+            s = str(r)
+            for c in range (self.gird_size):
+                
+                string = str(self.grid_display[r][c])
+                s  = s + ' ' + string
+               
+                
+               
             print(s)    
         return 
 
@@ -61,7 +69,7 @@ class Game:
 
     def uncoverCell(self,row,col):
         if (self.grid_display[row][col] == 'F'):
-            return
+            self.grid_display[row][col] = '#'
     
         elif (self.grid[row][col] != -1):        #Location picked  is not a mine
             
@@ -137,6 +145,7 @@ class Game:
             gameEnd = True
             print ('CONGRATS GAME WON!')
         
+
         return gameEnd
     
     
