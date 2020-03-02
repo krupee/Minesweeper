@@ -1,5 +1,8 @@
 from random import randrange, seed
 
+
+
+
 Empty = 0
 Bomb = -1
 Hide = '#'
@@ -41,30 +44,7 @@ class Game:
             #self.grid_display[row][col] = 'M'
 
     def show(self):
-        numString = ' '
-        s = ''
-        i=0
-        r=0
-        c=0
-        
-    #Display x - range
-        for i in range (self.gird_size):
-            numString = numString + ' ' + str(i)
-        print (numString)
-    
-    #Display Board
-        for r in range (self.gird_size):
-            s = str(r)
-            for c in range (self.gird_size):
-                
-                string = str(self.grid_display[r][c])
-                s  = s + ' ' + string
-               
-                
-               
-            print(s)    
-        return 
-
+        print('\n'.join(['\t'.join([str(cell) for cell in row]) for row in self.grid_display]))
     
 
     def uncoverCell(self,row,col):
@@ -77,7 +57,7 @@ class Game:
         
         elif (self.grid[row][col] == -1):        #Location picked is a mine
             ## Mine exploded
-            self.grid_display = '*'
+            self.grid_display[row][col] = '*'
             ## NEED TO FIGURE OUT WHAT TO DO IN THIS CASE
             return
 
@@ -136,7 +116,7 @@ class Game:
             if self.grid_display[i][u] != '#' and self.grid_display[i][u] != 'F' and self.grid_display[i][u] !='*':
                 num_Uncovered = num_Uncovered + 1
             if self.grid_display[i][u] == '*':  #If bomb is revealed
-                print ('GAME LOST')
+                print ('GAME OVER')
                 gameEnd = True
                 return gameEnd
     
