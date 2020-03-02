@@ -91,7 +91,7 @@ class Game:
                         minecount = minecount + 1
             if self.grid[r][c] != -1:        #If it isnt a bomb,determine mines around
                 self.grid[r][c] = minecount
-        return
+        return minecount
 
 
     def gameOptions(self):
