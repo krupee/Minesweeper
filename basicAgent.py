@@ -14,7 +14,11 @@ def basicAgent(self):
     self.show()
     # Pick first square to start
     self.uncoverCell(0, 0)
+<<<<<<< HEAD
     print(self.mineindicator(8, 8))
+=======
+    print(self.mineindicator(0))
+>>>>>>> d754ba89e388fb841ab662d2ccd427052b49463a
     self.show()
     for x in range(self.gird_size):
         for y in range(self.gird_size):
