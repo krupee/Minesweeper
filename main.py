@@ -1,22 +1,22 @@
 from gameboard import Game
 
-numberMines = 0 
+numberMines = 0
+
 
 def run():
     gameboard = initialize()
     size = gameboard.gird_size
-    #Setting up number of mines adjacent to cells
+    # Setting up number of mines adjacent to cells
     gameboard.mineindicator(size)
-    i=0
+    i = 0
     gameboard.show()
-    while (not(gameboard.gameState(size,numberMines))):
+    while (not(gameboard.gameState(size, numberMines))):
         print()
         print()
-        
+
         gameboard.gameOptions()
-        print ('Current Board')
+        print('Current Board')
         gameboard.show()
-        
 
 
 def initialize():
@@ -30,7 +30,7 @@ def initialize():
             print('wrong input type')
     while(True):
         try:
-            mine_count = int(input('Entere number of mines: '))
+            mine_count = int(input('Enter number of mines: '))
             if mine_count <= gird_size * gird_size:
                 global numberMines
                 numberMines = mine_count
