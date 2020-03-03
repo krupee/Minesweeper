@@ -102,18 +102,28 @@ class Game:
         decision = input(
             'Would you like to flag or reveal a cell? Flag(F)|Reveal(R): ')
         if (decision == 'F' or decision == 'f'):
-            location = input(
-                'Enter row and column (ex. 2,3): ')
-            row, col = location.split(",")
-            self.grid_display[int(row)][int(col)] = 'F'
+            while(True):
+                try:
+                    location = input(
+                        'Enter row and column (ex. 2,3): ')
+                    row, col = location.split(",")
+                    self.grid_display[int(row)][int(col)] = 'F'
+                    break
+                except:
+                    print("Wrong Input")
         elif (decision == 'R' or decision == 'r'):
-            location = input(
-                'Enter row and column (ex. 2,3): ')
-            row, col = location.split(",")
-            row = int(row)
-            col = int(col)
-            self.uncoverCell(int(row), int(col))
-        elif (decision == 'q' or decision == 'Q'):
+            while(True):
+                try:
+                    location = input(
+                        'Enter row and column (ex. 2,3): ')
+                    row, col = location.split(",")
+                    row = int(row)
+                    col = int(col)
+                    self.uncoverCell(int(row), int(col))
+                    break
+                except:
+                    print("Wrong Input")
+        elif (decision == 'Q' or decision == 'q'):
             exit(0)
         return
 
