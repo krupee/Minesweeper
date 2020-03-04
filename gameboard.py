@@ -15,7 +15,7 @@ class Game:
 
         self.gird_size = gird_size
         self.mine_count = mine_count
-
+        self.visited = self.createVisited()
         rows = [0]*mine_count
         cols = [0]*mine_count
 
@@ -44,8 +44,23 @@ class Game:
             # Removing for gameplay purpose
             #self.grid_display[row][col] = 'M'
 
+    def createVisited(self):
+        arr = []        
+        for x in range(self.gird_size):
+            new = []
+            for y in range(self.gird_size):
+                new.append(False)
+            arr.append(new)
+        return arr
+
     def show(self):
         print('\n'.join(['\t'.join([str(cell) for cell in row]) for row in self.grid_display]))
+
+    def showGrid(self):
+        print('\n'.join(['\t'.join([str(cell) for cell in row]) for row in self.grid]))
+
+    def showVisited(self):
+        print('\n'.join(['\t'.join([str(cell) for cell in row]) for row in self.visited]))
     
 #   Reveals a cell and checks whether it is a mine or not
     def uncoverCell(self,row,col):
@@ -90,19 +105,12 @@ class Game:
                 if r < row-1:
                     if (self.grid[r+1][c] == -1):        #Check Down
                         minecount = minecount + 1
-<<<<<<< HEAD
-            if self.grid[r][c] != -1:        #If it isnt a bomb,determine mines around
-                self.grid[r][c] = minecount
-        return minecount
-
-=======
                     if c > 0:
                         if (self.grid[r+1][c-1] == -1):  #Check Bottom Left
                             minecount = minecount + 1
                 if self.grid[r][c] != -1:        #If it isnt a bomb,determine mines around
                     self.grid[r][c] = minecount
-            return
->>>>>>> d754ba89e388fb841ab662d2ccd427052b49463a
+        return
 
 #   Chooses whether you want to reveal or flag a cell
     def gameOptions(self):
