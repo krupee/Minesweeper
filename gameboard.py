@@ -1,5 +1,6 @@
 from random import randrange, seed
 
+
 Empty = 0
 Bomb = -1
 Hide = '#'
@@ -11,15 +12,15 @@ Hide = '#'
 
 class Game:
     def __init__(self, gird_size, mine_count):
+
         self.gird_size = gird_size
         self.mine_count = mine_count
-
+        self.visited = self.createVisited()
         rows = [0]*mine_count
         cols = [0]*mine_count
 
         # initialize grid with 0
-        self.grid = [
-            [Empty]*gird_size for i in range(gird_size)]
+        self.grid = [[Empty]*gird_size for i in range(gird_size)]
 
         self.grid_display = [
             [Hide]*gird_size for i in range(gird_size)]  # diplay grid
@@ -43,9 +44,26 @@ class Game:
             # Removing for gameplay purpose
             #self.grid_display[row][col] = 'M'
 
+    def createVisited(self):
+        arr = []
+        for x in range(self.gird_size):
+            new = []
+            for y in range(self.gird_size):
+                new.append(False)
+            arr.append(new)
+        return arr
+
     def show(self):
         print('\n'.join(['\t'.join([str(cell) for cell in row])
                          for row in self.grid_display]))
+
+    def showGrid(self):
+        print('\n'.join(['\t'.join([str(cell) for cell in row])
+                         for row in self.grid]))
+
+    def showVisited(self):
+        print('\n'.join(['\t'.join([str(cell) for cell in row])
+                         for row in self.visited]))
 
 #   Reveals a cell and checks whether it is a mine or not
     def uncoverCell(self, row, col):
@@ -95,9 +113,12 @@ class Game:
                             minecount = minecount + 1
                 if self.grid[r][c] != -1:  # If it isnt a bomb,determine mines around
                     self.grid[r][c] = minecount
-            return
+        return
+
 
 #   Chooses whether you want to reveal or flag a cell
+
+
     def gameOptions(self):
         decision = input(
             'Would you like to flag or reveal a cell? Flag(F)|Reveal(R): ')
