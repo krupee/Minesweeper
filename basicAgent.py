@@ -1,14 +1,15 @@
 from gameboard import Game
 from random import randrange, seed
 class Tile:
-    def __init__ (self, x, y):
+    def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.flag = 0 # 0 = unknown, 1 = safe, 2 = mine
+        self.flag = 0  # 0 = unknown, 1 = safe, 2 = mine
         self.numNeighbors = 0
         self.numAdjacentMines = 0
         self.numAdjacentSafe = 0
         self.numAdjacentHidden = 0
+
 
 def calculateAdj(self, tile):
     x = tile.x
@@ -85,11 +86,10 @@ def numNeighbors(self, x, y):
             if (r == 0 and c == 0):
                 continue
             row = r + x
-            column = c + y 
+            column = c + y
             if (row < self.gird_size and row >= 0 and column < self.gird_size and column >= 0):
                 count = count + 1
-    return count    
-
+    return count
 
 
 def basicAgent(self):
@@ -163,9 +163,6 @@ def basicAgent(self):
 
         
 
-
-
-        
     '''
     for x in range(self.gird_size):
         print()
@@ -178,17 +175,8 @@ def basicAgent(self):
             #self.cells.append(curr)
     '''
 
-            
-
-
-
-    
-    #for curr in self.cells:
-        #print(curr.x, curr.y, curr.flag)
-
-
-
-
+    # for curr in self.cells:
+    #print(curr.x, curr.y, curr.flag)
 
 
 game = Game(8, 8)
@@ -212,8 +200,6 @@ basicAgent(game)
 
 When clue == # hidden neighbors
 
-
-https://github.com/vedantc6/CS520-AI/blob/master/MineSweeper/agents/base_agent.py
  
 '''
 
