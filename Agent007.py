@@ -55,9 +55,8 @@ def Agent007(self, grid_size, num_mines):
                     # print("here")
                     break
                 else:
-
                     _uncover_neighbors(self, a, b)
-                    # mine_hit = True
+                    #mine_hit = True
 
 
 def _uncover_neighbors(self, row, col):
@@ -68,7 +67,10 @@ def _uncover_neighbors(self, row, col):
             if (row + r >= 0 and col + c >= 0 and row + r < self.gird_size and
                     col + c < self.gird_size and (self.grid_display[row+r][col+c] == '#' and not self.grid_display[row+r][col+c] == 'F')):
                 self.uncoverCell(row+r, col+c)
-
+                self.show()
+                # bombsAroundCell(self, row+r, col+c)
+                # self.show()
+                # If its a mine Flag it.
                 if(self.grid_display[row+r][col+c] == "*"):
                     self.grid_display[row+r][col+c] = 'F'
                     self.show()
