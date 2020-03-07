@@ -54,6 +54,7 @@ class Game:
         return arr
 
     def show(self):
+        print()
         print('\n'.join(['\t'.join([str(cell) for cell in row])
                          for row in self.grid_display]))
 
