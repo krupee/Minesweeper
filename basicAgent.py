@@ -219,10 +219,10 @@ print(stri)
 #print(curr.x, curr.y, curr.flag)
 
 
-game = Game(4, 1)
-size = game.gird_size
-game.mineindicator(size)
-basicAgent(game)
+# game = Game(4, 1)
+# size = game.gird_size
+# game.mineindicator(size)
+# basicAgent(game)
 
 '''
 
