@@ -1,7 +1,7 @@
 from gameboard import Game
 from random import randrange, seed
 import numpy as np
-from basicAgent import is_number, bombsAroundCell, safeAroundCell, revealNeighbors, flagNeighbors
+#from basicAgent import is_number, bombsAroundCell, safeAroundCell, revealNeighbors, flagNeighbors
 
 
 def Agent007(self, grid_size, num_mines):
@@ -29,20 +29,20 @@ def Agent007(self, grid_size, num_mines):
         print("flagcount", flagCount)
         self.show()
         print()
-
-        row = a
-        col = b
-        check = 0
+        _uncover_neighbors(self, a, b)
+        mine_hit = True
         # mine_hit = True
-        for r in range(-1, 2):
-            for c in range(-1, 2):
-                if(r == 0 and c == 0):  # current cell
-                    continue
-                if (row + r >= 0 and col + c >= 0 and row + r < self.gird_size and
-                        col + c < self.gird_size and (self.grid_display[row+r][col+c] == '#' and not self.grid_display[row+r][col+c] == 'F')):
-                    self.uncoverCell(row+r, col+c)
-            check = check+1
-            print(check)
+
+
+def _uncover_neighbors(self, row, col):
+    for r in range(-1, 2):
+        for c in range(-1, 2):
+            if(r == 0 and c == 0):  # current cell
+                continue
+            if (row + r >= 0 and col + c >= 0 and row + r < self.gird_size and
+                    col + c < self.gird_size and (self.grid_display[row+r][col+c] == '#' and not self.grid_display[row+r][col+c] == 'F')):
+                self.uncoverCell(row+r, col+c)
+                self.show()
 
 
 def _create_constraint_equation(self, var):
