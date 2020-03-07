@@ -12,6 +12,41 @@ def is_number(a):
         return False
 
 
+def make_None_matrix(m):
+    dim = len(m[0])
+    for i in range(dim):
+        for j in range(dim):
+            m[i, j] = None
+    return m
+
+
+def get_Information_Board(m):
+    dim = len(m[0])
+    m1 = np.zeros_like(m)
+    for i in range(dim):
+        for j in range(dim):
+            m1[i, j] = get_info_at(m, i, j)
+    return m1
+
+
+def get_info_at(m, i, j):
+    neigh_sum = 0
+    dim = len(m[0])
+    for l in [-1, 0, 1]:
+        for k in [-1, 0, 1]:
+            if is_valid(i+l, j+k, dim):
+                neigh_sum += m[i+l, j+k]
+    return neigh_sum
+
+
+def is_valid(i, j, dim):
+    if i < 0 or j < 0:
+        return False
+    if i > dim-1 or j > dim - 1:
+        return False
+    return True
+
+
 class Tile:
     def __init__(self, x, y):
         self.x = x
@@ -21,6 +56,20 @@ class Tile:
         self.numAdjacentMines = 0
         self.numAdjacentSafe = 0
         self.numAdjacentHidden = 0
+
+        self.dim = dim
+        self.degree = np.zeros([dim, dim])
+        self.probability = np.zeros([dim, dim]) + 1.0
+        # 0 if only zero is possible , 1 if only one value is possible. 2 if both are possible
+        self.possible_values = make_None_matrix(np.zeros([dim, dim]))
+        self.known_board = make_None_matrix(np.zeros([dim, dim]))
+        # all explored nodes are 1 remaining zeros
+        self.explored_board = np.zeros([dim, dim])
+        self.current_state = np.zeros([dim, dim])
+        self.constraint_list = []
+        self.safe_cells = []
+        self.mines = []
+        self.isVariable = np.zeros([dim, dim])
 
 
 def calculateAdj(self, tile):
@@ -110,72 +159,7 @@ def play(self):
     current_grid = self.grid_display
     while not np.array_equal(current_grid, old_grid):
         old_grid = current_grid
-        current_grid = basicAgent(game)
-
-
-def basicAgent(self):
-    lose = False
-    #temp = [randrange(self.gird_size), randrange(self.gird_size)]
-    temp = (0, 0)
-    self.uncoverCell(temp[0], temp[1])
-    if (self.grid_display[temp[0]][temp[1]] == "*"):
-        lose = True
-
-    flagCount = 0
-    while ((lose is False) and (self.mine_count != flagCount)):
-        # print("flagcount",flagCount)
-        self.show()
-        print()
-
-        for x in range(self.gird_size):
-
-            for y in range(self.gird_size):
-                # print(self.grid_display[x][y])
-                self.show()
-                print()
-                # Current cell is already revealed
-                if (is_number(self.grid_display[x][y])):
-                    # Case 1
-                    # print("here")
-                    continue
-                # Curret cell is already flagged
-                elif (str(self.grid_display[x][y]) is 'F'):
-                    # Case 2
-                    flagCount = flagCount + 1
-                    #print("f inc", flagCount)
-                    continue
-                # Just reevealed current cell and its a mine :(
-                elif (str(self.grid_display[x][y]) is '*'):
-                    #print("Hit a Mine! You Lose!")
-                    lose = True
-                    # print("here")
-                    break
-                else:
-                    self.uncoverCell(x, y)
-                    clue = self.grid[x][y]
-                    if (self.grid_display[x][y] == "*"):
-                        lose = True
-                        break
-                    if (clue == 0):
-                        # All safe around cell
-                        revealNeighbors(self, x, y)
-                    elif (clue == 8):
-                        # All mines around me
-                        flagNeighbors(self, x, y)
-                    else:
-                        # Corner/edge cases
-                        if (clue == bombsAroundCell(self, x, y)):
-                            revealNeighbors(self, x, y)
-                        elif (clue == safeAroundCell(self, x, y)):
-                            flagNeighbors(self, x, y)
-
-            if (lose is True):
-                break
-    self.show()
-    if (lose is True):
-        print("Mine hit")
-    else:
-        print("You won!")
+        current_grid = Agent007(game)
 
 
 '''
