@@ -3,169 +3,10 @@ from random import randrange, seed
 import numpy as np
 
 
-def is_number(a):
-    # will be True also for 'NaN'
-    try:
-        number = float(a)
-        return True
-    except ValueError:
-        return False
+class Agent007():
 
-
-def make_None_matrix(m):
-    dim = len(m[0])
-    for i in range(dim):
-        for j in range(dim):
-            m[i, j] = None
-    return m
-
-
-def get_Information_Board(m):
-    dim = len(m[0])
-    m1 = np.zeros_like(m)
-    for i in range(dim):
-        for j in range(dim):
-            m1[i, j] = get_info_at(m, i, j)
-    return m1
-
-
-def get_info_at(m, i, j):
-    neigh_sum = 0
-    dim = len(m[0])
-    for l in [-1, 0, 1]:
-        for k in [-1, 0, 1]:
-            if is_valid(i+l, j+k, dim):
-                neigh_sum += m[i+l, j+k]
-    return neigh_sum
-
-
-def is_valid(i, j, dim):
-    if i < 0 or j < 0:
-        return False
-    if i > dim-1 or j > dim - 1:
-        return False
-    return True
-
-
-class Tile:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.flag = 0  # 0 = unknown, 1 = safe, 2 = mine
-        self.numNeighbors = 0
-        self.numAdjacentMines = 0
-        self.numAdjacentSafe = 0
-        self.numAdjacentHidden = 0
-
-        self.dim = dim
-        self.degree = np.zeros([dim, dim])
-        self.probability = np.zeros([dim, dim]) + 1.0
-        # 0 if only zero is possible , 1 if only one value is possible. 2 if both are possible
-        self.possible_values = make_None_matrix(np.zeros([dim, dim]))
-        self.known_board = make_None_matrix(np.zeros([dim, dim]))
-        # all explored nodes are 1 remaining zeros
-        self.explored_board = np.zeros([dim, dim])
-        self.current_state = np.zeros([dim, dim])
-        self.constraint_list = []
-        self.safe_cells = []
-        self.mines = []
-        self.isVariable = np.zeros([dim, dim])
-
-
-def calculateAdj(self, tile):
-    x = tile.x
-    y = tile.y
-    safe = 0
-    hidden = 0
-    mines = 0
-    clue = self.grid[x][y]
-
-    for r in range(-1, 2):
-        for c in range(-1, 2):
-            if (r == 0 and c == 0):
-                continue
-            row = r + x
-            column = c + y
-            if (row < self.gird_size and row >= 0 and column < self.gird_size and column >= 0):
-                if (self.grid_display[row][column] == "#"):
-                    hidden = hidden + 1
-                elif (self.grid_display[row][column] == "F"):
-                    mines = mines + 1
-                else:
-                    safe = safe + 1
-
-# Uncovers all neighbors of a given cell
-
-
-def revealNeighbors(self, row, col):
-    for r in range(-1, 2):
-        for c in range(-1, 2):
-            if (r == 0 and c == 0):  # Current cell
-                continue
-            if (row + r >= 0 and col + c >= 0 and row + r < self.gird_size and col + c < self.gird_size and (self.grid_display[row+r][col+c] == '#' and not self.grid_display[row+r][col+c] == 'F')):
-                self.uncoverCell(row+r, col+c)
-
-
-# Flags all neighbors of a given cell
-def flagNeighbors(self, row, col):
-    for r in range(-1, 2):
-        for c in range(-1, 2):
-            if (r == 0 and c == 0):  # Current cell
-                continue
-            if (row + r >= 0 and col + c >= 0 and row + r < self.gird_size and col + c < self.gird_size and (self.grid_display[row+r][col+c] == '#' and not self.grid_display[row+r][col+c] == 'F')):
-                self.grid_display[row+r][col+c] = 'F'
-
-# Counts number of flagged mines around current cell
-
-
-def bombsAroundCell(self, row, col):
-    count = 0
-    for r in range(-1, 2):
-        for c in range(-1, 2):
-            if (r == 0 and c == 0):  # Current cell
-                continue
-            if (row + r >= 0 and col + c >= 0 and row + r < self.gird_size and col + c < self.gird_size and self.grid_display[row+r][col+c] == 'F'):
-                count = count + 1
-    return count
-
-
-def safeAroundCell(self, row, col):
-    count = 0
-    for r in range(-1, 2):
-        for c in range(-1, 2):
-            if (r == 0 and c == 0):  # Current cell
-                continue
-            if (row + r >= 0 and col + c >= 0 and row + r < self.gird_size and col + c < self.gird_size and self.grid_display[row+r][col+c] == '#'):
-                count = count + 1
-    return count
-
-
-def numNeighbors(self, x, y):
-    count = 0
-    for r in range(-1, 2):
-        for c in range(-1, 2):
-            if (r == 0 and c == 0):
-                continue
-            row = r + x
-            column = c + y
-            if (row < self.gird_size and row >= 0 and column < self.gird_size and column >= 0):
-                count = count + 1
-    return count
-
-
-def play(self):
-    game = Game(4, 2)
-    old_grid = None
-    current_grid = self.grid_display
-    while not np.array_equal(current_grid, old_grid):
-        old_grid = current_grid
-        current_grid = Agent007(game)
-
-
-class CSPAgent():
-
-    def __init__(self, env=None, end_game_on_mine_hit=True):
-        self.env = env
+    def __init__(self, grid=None, end_game_on_mine_hit=True):
+        self.grid = grid
         self.end_game_on_mine_hit = end_game_on_mine_hit
         self.all_constraint_equations = list()
         self.non_mine_variables = list()
@@ -181,19 +22,19 @@ class CSPAgent():
                 if (i == 0 and j == 0):
                     continue
 
-                if (row + i >= 0 and column + j >= 0 and row + i < self.env.n and column + j < self.env.n):
+                if (row + i >= 0 and column + j >= 0 and row + i < self.grid.n and column + j < self.grid.n):
 
                     # If a neighbour is already clicked, then do not add it to the constraint equation.
-                    if self.env.opened[row + i, column + j]:
+                    if self.grid.opened[row + i, column + j]:
                         continue
 
                     # If a neighbour is already flagged, then do not add it to the equation but subtract the constraint value
                     # of the current variable.
-                    if self.env.flags[row + i, column + j]:
+                    if self.grid.flags[row + i, column + j]:
                         variable.constraint_value -= 1
                         continue
 
-                    neighbour = self.env.variable_mine_ground_copy[row + i, column + j]
+                    neighbour = self.grid.variable_mine_ground_copy[row + i, column + j]
                     variable.add_constraint_variable(variable=neighbour)
 
         # Append the equation in the global equation list
@@ -263,7 +104,7 @@ class CSPAgent():
             if equation[1] == 0:
                 self.all_constraint_equations.remove(equation)
                 for non_mine_variable in equation[0]:
-                    if not self.env.opened[non_mine_variable.row, non_mine_variable.column] and \
+                    if not self.grid.opened[non_mine_variable.row, non_mine_variable.column] and \
                             non_mine_variable not in self.non_mine_variables:
                         self.non_mine_variables.append(non_mine_variable)
                 continue
@@ -273,7 +114,7 @@ class CSPAgent():
             if len(equation[0]) == equation[1]:
                 self.all_constraint_equations.remove(equation)
                 for mine_variable in equation[0]:
-                    if not self.env.flags[mine_variable.row, mine_variable.column] and mine_variable not in self.mine_variables:
+                    if not self.grid.flags[mine_variable.row, mine_variable.column] and mine_variable not in self.mine_variables:
                         self.mine_variables.append(mine_variable)
 
     def _remove_variable_from_other_equations(self, variable, is_mine_variable=False):
@@ -285,21 +126,21 @@ class CSPAgent():
                     equation[1] -= 1
 
     def _add_mine_flag(self, cell):
-        self.env.add_mine_flag(cell.row, cell.column)
+        self.grid.add_mine_flag(cell.row, cell.column)
         self._remove_variable_from_other_equations(
             variable=cell, is_mine_variable=True)
 
     def _open_mine_cell(self, cell):
-        self.env.open_mine_cell(cell.row, cell.column)
+        self.grid.open_mine_cell(cell.row, cell.column)
         self._remove_variable_from_other_equations(
             variable=cell, is_mine_variable=True)
 
     def _click_square(self, cell):
-        self.env.click_square(cell.row, cell.column)
+        self.grid.click_square(cell.row, cell.column)
 
         # If game is over, it means we clicked on a mine. If we dont want to end the game on mine hit
         # then reset the mine_hit variable, open the mine and continue with the game.
-        if self.env.mine_hit and not self.end_game_on_mine_hit:
+        if self.grid.mine_hit and not self.end_game_on_mine_hit:
             self._open_mine_cell(cell=cell)
             return
 
@@ -312,21 +153,21 @@ class CSPAgent():
     def _click_random_square_with_heuristic(self):
 
         unopened_cells = dict()
-        open_cell_coords = list(zip(*np.where(self.env.opened)))
+        open_cell_coords = list(zip(*np.where(self.grid.opened)))
 
         for row, column in open_cell_coords:
-            open_cell = self.env.variable_mine_ground_copy[row, column]
+            open_cell = self.grid.variable_mine_ground_copy[row, column]
 
             # Get number of open mines
             number_of_cell_mines_found = open_cell.get_flagged_mines(
-                env=self.env)
+                grid=self.grid)
 
             # Calculate risk for the open cell
             risk = open_cell.value - number_of_cell_mines_found
 
             # Get all the neighbours which are still yet to be opened
             unopened_cell_neighbours = open_cell.get_unopened_neighbours(
-                env=self.env)
+                grid=self.grid)
 
             # Assign the same risk value to each of the neighbours
             for cell_neighbour in unopened_cell_neighbours:
@@ -345,12 +186,12 @@ class CSPAgent():
         self._click_square(random_cell)
 
     def _click_random_square(self):
-        unopened_cells_coords = list(zip(*np.where(~self.env.clicked)))
+        unopened_cells_coords = list(zip(*np.where(~self.grid.clicked)))
 
         if not unopened_cells_coords:
             return
 
-        random_cells = [self.env.variable_mine_ground_copy[row, col]
+        random_cells = [self.grid.variable_mine_ground_copy[row, col]
                         for (row, col) in unopened_cells_coords]
         random_cell = np.random.choice(random_cells)
         self._click_square(random_cell)
@@ -383,20 +224,20 @@ class CSPAgent():
 
     def get_gameplay_metrics(self):
         metrics = dict()
-        metrics["number_of_mines_hit"] = self.env.number_of_mines_hit / \
-            self.env.number_of_mines
+        metrics["number_of_mines_hit"] = self.grid.number_of_mines_hit / \
+            self.grid.number_of_mines
         metrics["number_of_mines_flagged_correctly"] = len(list(zip(
-            *np.where(self.env.mines & self.env.flags.astype(bool) & ~self.env.mine_revealed))))
+            *np.where(self.grid.mines & self.grid.flags.astype(bool) & ~self.grid.mine_revealed))))
         metrics["number_of_cells_flagged_incorrectly"] = len(
-            list(zip(*np.where(~self.env.mines & self.env.flags.astype(bool)))))
+            list(zip(*np.where(~self.grid.mines & self.grid.flags.astype(bool)))))
         metrics["final_score"] = metrics["number_of_mines_flagged_correctly"] / \
-            self.env.number_of_mines
+            self.grid.number_of_mines
         return metrics
 
     def play(self):
 
         self.non_mine_variables.append(
-            self.env.variable_mine_ground_copy[0, 0])
+            self.grid.variable_mine_ground_copy[0, 0])
         while(True):
 
             # Always see if we can solve the minesweeper using a basic solver
@@ -404,8 +245,8 @@ class CSPAgent():
 
             # Condition to end the game
             all_flags_equal_to_mines = list(
-                zip(*np.where(self.env.mines))) == list(zip(*np.where(self.env.flags)))
-            all_clicked = np.all(self.env.clicked)
+                zip(*np.where(self.grid.mines))) == list(zip(*np.where(self.grid.flags)))
+            all_clicked = np.all(self.grid.clicked)
 
             # If we are stuck at a game position, where no new moves can be made
             # then we just click randomly.
@@ -414,7 +255,7 @@ class CSPAgent():
                 self._click_random_square()
 
             # If we hit a mine, then we lost the game
-            if self.env.mine_hit:
+            if self.grid.mine_hit:
                 self.game_won = False
                 return
 
@@ -478,11 +319,6 @@ print(stri)
 # for curr in self.cells:
 #print(curr.x, curr.y, curr.flag)
 
-
-game = Game(4, 1)
-size = game.gird_size
-game.mineindicator(size)
-basicAgent(game)
 
 '''
 
