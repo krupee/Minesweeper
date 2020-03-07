@@ -1,7 +1,7 @@
 from gameboard import Game
 from random import randrange, seed
 import numpy as np
-#from basicAgent import is_number, bombsAroundCell, safeAroundCell, revealNeighbors, flagNeighbors
+from basicAgent import is_number, bombsAroundCell, safeAroundCell, revealNeighbors, flagNeighbors
 
 
 def Agent007(self, grid_size, num_mines):
@@ -25,13 +25,39 @@ def Agent007(self, grid_size, num_mines):
         print('NOT A MINE')
 
     flagCount = 0
+    x = a
+    y = b
+
     while ((mine_hit is False) and (self.mine_count != flagCount)):
         print("flagcount", flagCount)
         self.show()
         print()
-        _uncover_neighbors(self, a, b)
-        mine_hit = True
-        # mine_hit = True
+        for x in range(grid_size):
+            for y in range(grid_size):
+                # Current cell is already revealed
+                if(x == 0 and y == 0):
+                    continue
+
+                if (is_number(self.grid_display[x][y])):
+                    # Case 1
+                    # print("here")
+                    continue
+                # Curret cell is already flagged
+                elif (str(self.grid_display[x][y]) is 'F'):
+                    # Case 2
+                    flagCount = flagCount + 1
+                    #print("f inc", flagCount)
+                    continue
+                # Just reevealed current cell and its a mine :(
+                elif (str(self.grid_display[x][y]) is '*'):
+                    #print("Hit a Mine! You Lose!")
+                    mine_hit = True
+                    # print("here")
+                    break
+                else:
+
+                    _uncover_neighbors(self, a, b)
+                    # mine_hit = True
 
 
 def _uncover_neighbors(self, row, col):
@@ -43,6 +69,7 @@ def _uncover_neighbors(self, row, col):
                     col + c < self.gird_size and (self.grid_display[row+r][col+c] == '#' and not self.grid_display[row+r][col+c] == 'F')):
                 self.uncoverCell(row+r, col+c)
                 self.show()
+                _uncover_neighbors(self, row+r, col+c)
 
 
 def _create_constraint_equation(self, var):
@@ -102,6 +129,14 @@ game = Game(grid_size, num_mines)
 size = game.gird_size
 Agent007(game, grid_size, num_mines)
 print()
+
+'''
+Every square is a variable with two possible values: safe or mined.
+Every safe square yields a ‘sum constraint’ over its 8 neighbors. For example, a square labeled 3 yields a constraint stating the square be surrounded by 3 mines.
+
+'''
+
+
 '''
 Ok so, Start with a random cell from the grid
 Check Neighbors Nearby if there is a mine
