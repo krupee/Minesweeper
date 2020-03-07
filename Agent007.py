@@ -56,30 +56,30 @@ def Agent007(self, grid_size, num_mines):
                     flagCount = flagCount + 1
                     # print("f inc", flagCount)
                     continue
-                # Just reevealed current cell and its a mine :(
+                # Just revealed current cell and its a mine :(
                 elif (str(self.grid_display[x][y]) is '*'):
                     # print("Hit a Mine! You Lose!")
                     mine_hit = True
                     # print("here")
                     break
-                else:
-                    self.uncoverCell(x, y)
-                    clue = self.grid[x][y]
-                    if (self.grid_display[x][y] == "*"):
-                        lose = True
-                        break
-                    if (clue == 0):
-                        # All safe around cell
-                        revealNeighbors(self, x, y)
-                    elif (clue == 8):
-                        # All mines around me
-                        flagNeighbors(self, x, y)
-                    else:
-                        # Corner/edge cases
-                        if (clue == bombsAroundCell(self, x, y)):
-                            revealNeighbors(self, x, y)
-                        elif (clue == safeAroundCell(self, x, y)):
-                            flagNeighbors(self, x, y)
+                # else:
+                #     self.uncoverCell(x, y)
+                #     clue = self.grid[x][y]
+                #     if (self.grid_display[x][y] == "*"):
+                #         lose = True
+                #         break
+                #     if (clue == 0):
+                #         # All safe around cell
+                #         revealNeighbors(self, x, y)
+                #     elif (clue == 8):
+                #         # All mines around me
+                #         flagNeighbors(self, x, y)
+                #     else:
+                #         # Corner/edge cases
+                #         if (clue == bombsAroundCell(self, x, y)):
+                #             revealNeighbors(self, x, y)
+                #         elif (clue == safeAroundCell(self, x, y)):
+                #             flagNeighbors(self, x, y)
 
             if (mine_hit is True):
                 break
