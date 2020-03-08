@@ -3,87 +3,15 @@ from random import randrange, seed
 import numpy as np
 from basicAgent import is_number, bombsAroundCell, safeAroundCell, revealNeighbors, flagNeighbors
 
-
-def Agent007(self, grid_size, num_mines):
-    mine_hit = False
-    game_won = False
-    game_stuck = False
-    non_mine_var = list()
-    mine_var = list()
-    # temp = [randrange(self.gird_size), randrange(self.gird_size)]
-    a = randrange(grid_size)
-    b = randrange(grid_size)
-    temp = (a, b)
-    print(a, b)
-    print(temp[0])
-    print(temp[1])
-    self.uncoverCell(temp[0], temp[1])
-    if (self.grid_display[temp[0]][temp[1]] == "*"):
-        mine_hit = True
-        print('MINE HIT')
-    else:
-        print('NOT A MINE')
-
-    flagCount = 0
-    x = a
-    y = b
-
-    while ((mine_hit is False) and (self.mine_count != flagCount)):
-        print("flagcount", flagCount)
-        self.show()
-        print()
-        for x in range(grid_size):
-            for y in range(grid_size):
-                # Current cell is already revealed
-                if(x == 0 and y == 0):
-                    continue
-
-                if (is_number(self.grid_display[x][y])):
-                    # Case 1
-                    # print("here")
-                    continue
-                # Curret cell is already flagged
-                elif (str(self.grid_display[x][y]) is 'F'):
-                    # Case 2
-                    flagCount = flagCount + 1
-                    # print("f inc", flagCount)
-                    continue
-                # Just reevealed current cell and its a mine :(
-                elif (str(self.grid_display[x][y]) is '*'):
-                    # print("Hit a Mine! You Lose!")
-                    mine_hit = True
-                    # print("here")
-                    break
-                else:
-                    _uncover_neighbors(self, a, b)
-                    #mine_hit = True
+knowledgeBase = []
+mineTiles = []
+safeTiles = []
 
 
-def _uncover_neighbors(self, row, col):
-    for r in range(-1, 2):
-        for c in range(-1, 2):
-            if(r == 0 and c == 0):  # current cell
-                continue
-            if (row + r >= 0 and col + c >= 0 and row + r < self.gird_size and
-                    col + c < self.gird_size and (self.grid_display[row+r][col+c] == '#' and not self.grid_display[row+r][col+c] == 'F')):
-                self.uncoverCell(row+r, col+c)
-                self.show()
-                # bombsAroundCell(self, row+r, col+c)
-                # self.show()
-                # If its a mine Flag it.
-                if(self.grid_display[row+r][col+c] == "*"):
-                    self.grid_display[row+r][col+c] = 'F'
-                    self.show()
-                    break
-                else:
-                    self.show()
-                    _uncover_neighbors(self, row+r, col+c)
-
-
-def _create_constraint_equation(self, var):
-    row = var.row
+def _create_constraint_equation_for_variable(self,tile):
+    row = tile.x
     print(row)
-    column = var.column
+    column = tile.y
     print(column)
 
     for i in [-1, 0, 1]:
@@ -94,48 +22,25 @@ def _create_constraint_equation(self, var):
             if (row + i >= 0 and column + j >= 0 and row + i < self.gird_size and column + j < self.grid_size):
 
                 # If the neighbor is already visited do not add to the constraint equation.
-                if self.grid_display[row + i, column + j]:
+                if self.grid_display[row + i, column + j] != '#':
                     continue
 
                 # If a neighbour is flagged, then do not add it to the equation but subtract the constraint value of the current variable.
                 if str(self.grid_display[row + i, column + j]) is 'F':
-                    var.constraint_value -= 1
+                    tile.constraint_value -= 1
                     continue
 
-                neighbour = self.grid.variable_mine_ground_copy[row + i, column + j]
-                var.add_constraint_variable(variable=neighbour)
+                neighbour = self.tile_grid[row + i, column + j]
+                tile.add_constraint_variable(tile = neighbour)
 
     # Append the equation in the global equation list
-    self.all_constraint_equations.append(
-        [var.constraint_equation, var.constraint_value])
-
-
-def _visualise_equations(self):
-    for equation in self.all_constraint_equations:
-        print(repr([(variable.row, variable.column)
-                    for variable in equation[0]]), " = ", equation[1])
-
-
-def _remove_duplicates(self, array):
-
-    # Create an empty list to store unique elements
-    uniqueList = []
-
-    # Iterate over the original list and for each element
-    # add it to uniqueList, if its not already there.
-    for element in array:
-        if element not in uniqueList:
-            uniqueList.append(element)
-
-    # Return the list of unique elements
-    return uniqueList
-
-
+    knowledgeBase.append((tile.constraint_equation, tile.constraint_value))
+       
 grid_size = 4
 num_mines = 1
 game = Game(grid_size, num_mines)
 size = game.gird_size
-Agent007(game, grid_size, num_mines)
+#Agent007(game, grid_size, num_mines)
 print()
 
 
@@ -164,3 +69,53 @@ If any of the cell is a mine, Flag that cell
 add constraints to each of those cell, if the neigbors are all safe open all of the cells
 proceed further by check neighbors of the variables with constraints 
 '''
+# Libraries Included:
+# Numpy, Scipy, Scikit, Pandas
+
+# global knowledegeBase = list()
+# global mineTiles = list()
+# global safeTiles = list()
+
+
+
+# class Tile:
+#     def __init__(self, x, y):
+#         self.x = x
+#         self.y = y
+#         self.flag = 0  # 0 = unknown, 1 = safe, 2 = mine
+#         self.constraint_value = 0
+#         self.constraint_equation = list()
+#         self.isMine = False
+#         self.numNeighbors = 0
+#         self.numAdjacentMines = 0
+#         self.numAdjacentSafe = 0
+#         self.numAdjacentHidden = 0
+        
+          
+            
+# def improvedAgent(self):
+    
+#     # Pick random tile
+#     # Get clue and clues around tile to build constarint variable and equation
+#     # Add to knowlege base the clue of tile and a lisr of the cluesof all neighbors
+#     # Based on constarint vairabe and smallest of all constraint equation pick next tile
+    
+#     # Choosing random cell
+#     temp = [randrange(self.gird_size), randrange(self.gird_size)]
+#     self._uncoverCell(temp[0], temp[1])
+    
+    
+        
+       
+        
+        
+
+        
+        
+        
+        
+        
+# game = Game(4, 1)
+# size = game.gird_size
+# game.mineindicator(size)
+# improvedAgent(game)

@@ -1,5 +1,6 @@
 from random import randrange, seed
-
+from Agent007 import _create_constraint_equation_for_variable
+from Agent007 import _remove_variable_from_other_equations
 
 Empty = 0
 Bomb = -1
@@ -9,6 +10,16 @@ Hide = '#'
 # .grid_display[][] is what the gameplayer sees
 # .grid[][] is "hidden board"
 
+class Tile:
+    def __init__(self, clue, x, y, value = None):
+        self.x = x
+        self.y = y
+        self.clue = clue
+        #self.flag = 0  # 0 = unknown, 1 = safe, 2 = mine
+        self.constraint_value = value
+        self.constraint_equation = list()
+        self.isMine = False
+  
 
 class Game:
     def __init__(self, gird_size, mine_count):
@@ -16,6 +27,12 @@ class Game:
         self.gird_size = gird_size
         self.mine_count = mine_count
         self.visited = self.createVisited()
+        
+        self.tile_grid = [[Empty]*gird_size for i in range(gird_size)]
+        for row in range(gird_size):
+          for column in range(gird_size):
+            self.tile_grid[row, column] = Tile(0,x = row, y = column)
+
         rows = [0]*mine_count
         cols = [0]*mine_count
 
@@ -80,6 +97,30 @@ class Game:
             self.grid_display[row][col] = '*'
             # NEED TO FIGURE OUT WHAT TO DO IN THIS CASE
             return
+
+#   Reveals a cell and checks whether it is a mine or not
+    def _uncoverCell(self, row, col):
+        #tile = Tile(self.grid[row][col], row, col)
+        
+        if (self.grid_display[row][col] == 'F'):  # Unflagging cell
+            self.grid_display[row][col] = '#'
+
+        elif (self.grid[row][col] != -1):  # Location picked  is not a mine
+            self.tile_grid[row][col].isMine = False
+            self.grid_display[row][col] = self.grid[row][col]
+
+        elif (self.grid[row][col] == -1):  # Location picked is a mine
+            # Mine exploded
+            self.tile_grid[row][col].isMine = True
+            # Flagging mine ad keep going
+            self.grid_display[row][col] = 'F'
+            
+            ## Remove variable from eq
+            return 
+        
+        currentTile = self.tile_grid[row][col]
+        _create_constraint_equation_for_variable(self, tile = currentTile)
+        _remove_variable_from_other_equations(self, tile = currentTile)
 
 #   Calculates number of adjacent mines for every cell in minefield
     def mineindicator(self, size):
