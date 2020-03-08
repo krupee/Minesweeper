@@ -1,12 +1,75 @@
 from gameboard import Game
 from random import randrange, seed
 import numpy as np
-from basicAgent import is_number, bombsAroundCell, safeAroundCell, revealNeighbors, flagNeighbors
+from basicAgent import is_number, bombsAroundCell, safeAroundCell, revealNeighbors, flagNeighbors, numNeighbors
 
 knowledgeBase = []
 mineTiles = []
 safeTiles = []
 
+def _check_equations_for_mine_and_non_mine_variables(self):
+        global mineTiles
+        global knowledgeBase
+        global safeTiles
+        for equation in knowledgeBase.copy():
+
+            # If the equation becomes empty i.e. all its variables are removed
+            if len(equation) == 0 or len(equation[0]) == 0:
+                knowledgeBase.remove(equation)
+                continue
+
+            # If value is 0, all variables in that equation are non-mine variables.
+            if equation[1] == 0:
+                knowledgeBase.remove(equation)
+                for non_mine_variable in equation[0]:
+                    if self.grid_display[non_mine_variable.x][non_mine_variable.y] is '#' and non_mine_variable not in safeTiles:
+                        safeTiles.append(non_mine_variable)
+                continue
+
+            # If value is equal to the length of the equation, then all the variables
+            # in the equation are min variables for sure.
+            if len(equation[0]) == equation[1]:
+                knowledgeBase.remove(equation)
+                for mine_variable in equation[0]:
+                    if not self.grid_display[mine_variable.x][mine_variable.y] is 'F' and mine_variable not in mineTiles:
+                        mineTiles.append(mine_variable)
+
+def _resolve_subsets(self):
+        global knowledgeBase
+        # Sort all equations in increasing order of their length
+        knowledgeBase = sorted(knowledgeBase, key = lambda x: len(x[0]))
+
+        # Start resolving subsets
+        for equation in knowledgeBase:
+            for equation_ in knowledgeBase:
+
+                if equation == equation_ or not equation[0] or not equation_[0] or not equation[1] or not equation_[1]:
+                    continue
+
+                # Check if the equation is a subset of the other equations
+                if set(equation[0]).issubset(set(equation_[0])):
+                    equation_[0] = list(set(equation_[0]) - set(equation[0]))
+                    equation_[1] -= equation[1]
+                    continue
+
+                # Check if the equation is a superset of the other equations
+                if set(equation_[0]).issubset(set(equation[0])):
+                    equation[0] = list(set(equation[0]) - set(equation_[0]))
+                    equation[1] -= equation_[1]
+
+        # After resolving subsets, check if now we can get mine and non-mine variables
+        # from the equations.
+        _check_equations_for_mine_and_non_mine_variables(self)       
+        
+        
+def _remove_variable_from_other_equations(self, tile, is_mine_variable = False):
+        global knowledgeBase
+        for equation in knowledgeBase:
+                if tile in equation[0]:
+                    equation[0].remove(tile)
+
+                    if is_mine_variable and equation[1]:
+                        equation[1] -= 1        
 
 def _create_constraint_equation_for_variable(self,tile):
     row = tile.x
@@ -33,14 +96,57 @@ def _create_constraint_equation_for_variable(self,tile):
                 neighbour = self.tile_grid[row + i, column + j]
                 tile.add_constraint_variable(tile = neighbour)
 
+    global knowledgeBase
     # Append the equation in the global equation list
     knowledgeBase.append((tile.constraint_equation, tile.constraint_value))
+
+def updateBoard(self):
+    for row in range(self.gird_size):
+        for col in range(self.gird_size):
+            if (self.grid_display == 0 or bombsAroundCell(self, row, col) == self.grid_display):
+                self.uncoverCell(row, col)
+            if (self.grid_display == numNeighbors(self, row, col) - safeAroundCell(self, row, col)):
+                self.flagNeighbors(self, row, col)
+                
+                    
+          
+def improvedAgent(self):
+    
+    # Pick random tile
+    # Get clue and clues around tile to build constarint variable and equation
+    # Add to knowlege base the clue of tile and a lisr of the cluesof all neighbors
+    # Based on constarint vairabe and smallest of all constraint equation pick next tile
+    
+    # Choosing random cell
+    temp = [randrange(self.gird_size), randrange(self.gird_size)]
+    currentTile = self.uncoverCell(temp[0], temp[1])
+    if currentTile:
+        _create_constraint_equation_for_variable(self, tile = currentTile)
+        _remove_variable_from_other_equations(self, tile = currentTile)
+   
+    while (True):
+        updateBoard(self)
+        _resolve_subsets(self)
+        temp = [randrange(self.gird_size), randrange(self.gird_size)]
+        currentTile = self.uncoverCell(temp[0], temp[1])
+        if currentTile:
+            _create_constraint_equation_for_variable(self, tile = currentTile)
+            _remove_variable_from_other_equations(self, tile = currentTile)
+        print(safeTiles)
        
+        
+        
+        
+            
+            
+            
+            
+                  
 grid_size = 4
 num_mines = 1
 game = Game(grid_size, num_mines)
 size = game.gird_size
-#Agent007(game, grid_size, num_mines)
+improvedAgent(game)
 print()
 
 

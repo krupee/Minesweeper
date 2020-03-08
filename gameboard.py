@@ -1,6 +1,5 @@
 from random import randrange, seed
-from Agent007 import _create_constraint_equation_for_variable
-from Agent007 import _remove_variable_from_other_equations
+
 
 Empty = 0
 Bomb = -1
@@ -31,7 +30,7 @@ class Game:
         self.tile_grid = [[Empty]*gird_size for i in range(gird_size)]
         for row in range(gird_size):
           for column in range(gird_size):
-            self.tile_grid[row, column] = Tile(0,x = row, y = column)
+            self.tile_grid[row][column] = Tile(0,x = row, y = column)
 
         rows = [0]*mine_count
         cols = [0]*mine_count
@@ -116,11 +115,12 @@ class Game:
             self.grid_display[row][col] = 'F'
             
             ## Remove variable from eq
-            return 
+            return None
+        
         
         currentTile = self.tile_grid[row][col]
-        _create_constraint_equation_for_variable(self, tile = currentTile)
-        _remove_variable_from_other_equations(self, tile = currentTile)
+        return currentTile
+        
 
 #   Calculates number of adjacent mines for every cell in minefield
     def mineindicator(self, size):
