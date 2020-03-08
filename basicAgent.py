@@ -174,8 +174,10 @@ def basicAgent(self):
     self.show()
     if (lose is True):
         print("Mine hit")
+        return False
     else:
         print("You won!")
+        return True
 
 
 '''
