@@ -111,7 +111,6 @@ def updateBoard(self):
                     
           
 def improvedAgent(self):
-    
     # Pick random tile
     # Get clue and clues around tile to build constarint variable and equation
     # Add to knowlege base the clue of tile and a lisr of the cluesof all neighbors
