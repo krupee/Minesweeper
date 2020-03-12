@@ -113,8 +113,8 @@ def play(self):
 # Basic agent function
 def basicAgent(self):
     lose = False
-    temp = [randrange(self.gird_size), randrange(self.gird_size)]
-    #temp = (0, 0)
+    #temp = [randrange(self.gird_size), randrange(self.gird_size)]
+    temp = (0, 0)
     self.uncoverCell(temp[0], temp[1])
     if (self.grid_display[temp[0]][temp[1]] == "*"):
         lose = True
@@ -179,11 +179,10 @@ def basicAgent(self):
         print("You won!")
         return True
 
-'''                
-grid_size = 7
-num_mines = 5
+                
+grid_size = 10
+num_mines = 3
 game = Game(grid_size, num_mines)
 size = game.gird_size
 game.mineindicator(size)
 basicAgent(game)
-'''
