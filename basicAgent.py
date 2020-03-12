@@ -23,6 +23,7 @@ class Tile:
         self.numAdjacentHidden = 0
 
 
+# Calculates adjecent cells
 def calculateAdj(self, tile):
     x = tile.x
     y = tile.y
@@ -46,8 +47,6 @@ def calculateAdj(self, tile):
                     safe = safe + 1
 
 # Uncovers all neighbors of a given cell
-
-
 def revealNeighbors(self, row, col):
     for r in range(-1, 2):
         for c in range(-1, 2):
@@ -67,8 +66,6 @@ def flagNeighbors(self, row, col):
                 self.grid_display[row+r][col+c] = 'F'
 
 # Counts number of flagged mines around current cell
-
-
 def bombsAroundCell(self, row, col):
     count = 0
     for r in range(-1, 2):
@@ -79,7 +76,7 @@ def bombsAroundCell(self, row, col):
                 count = count + 1
     return count
 
-
+# Gets number of safe cells around current cell
 def safeAroundCell(self, row, col):
     count = 0
     for r in range(-1, 2):
@@ -90,7 +87,7 @@ def safeAroundCell(self, row, col):
                 count = count + 1
     return count
 
-
+# Gets the number of neighbors around a given cell
 def numNeighbors(self, x, y):
     count = 0
     for r in range(-1, 2):
@@ -112,7 +109,7 @@ def play(self):
         old_grid = current_grid
         current_grid = basicAgent(game)
 
-
+# Basic agent function
 def basicAgent(self):
     lose = False
     #temp = [randrange(self.gird_size), randrange(self.gird_size)]
@@ -179,70 +176,3 @@ def basicAgent(self):
         print("You won!")
         return True
 
-
-'''
-self.mineindicator(self.gird_size)
-self.show()
-print()
-self.showGrid()
-print()
-self.showVisited()
-print()
-
-x = 0
-y = 0
-
-while (True):
-
-
-
-self.grid_display[x][y] = self.grid[x][y]
-self.visited[x][y] = True
-tile = Tile(x, y)
-self.numAdjacentSafe = calculateAdj(self, tile)
-self.show()
-print(numNeighbors(self, tile))
-'''
-
-
-'''
-for x in range(self.gird_size):
-print()
-stri = []
-for y in range(self.gird_size):
-curr = Tile(x, y)
-stri.append(self.grid[x][y])
-
-print(stri)
-#self.cells.append(curr)
-'''
-
-# for curr in self.cells:
-#print(curr.x, curr.y, curr.flag)
-
-
-# game = Game(4, 1)
-# size = game.gird_size
-# game.mineindicator(size)
-# basicAgent(game)
-
-'''
-
-0 2 # #
-1 2 # #
-# # # #
-# # # #
-
-
-- Pick (random)
-- Populate Tile with Hidden, Safe, Mine values
-- Check if any revealed tiles neighbors == clue OR if clue == 0, then make everything safe/mine
-- Pick (random)
-
-
-
-
-When clue == # hidden neighbors
-
-
-'''

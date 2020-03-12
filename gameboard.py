@@ -9,6 +9,7 @@ Hide = '#'
 # .grid_display[][] is what the gameplayer sees
 # .grid[][] is "hidden board"
 
+# Tile class for improved agent
 class Tile:
     def __init__(self, clue, x, y, value = None):
         self.x = x
@@ -19,7 +20,10 @@ class Tile:
         self.constraint_equation = list()
         self.isMine = False
   
+    def add_constraint_variable(self, tile):
+        self.constraint_equation.append(tile)
 
+# Game class
 class Game:
     def __init__(self, gird_size, mine_count):
 
