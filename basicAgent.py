@@ -176,3 +176,9 @@ def basicAgent(self):
         print("You won!")
         return True
 
+                
+grid_size = 3
+num_mines = 1
+game = Game(grid_size, num_mines)
+size = game.gird_size
+basicAgent(game)
