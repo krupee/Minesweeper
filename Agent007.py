@@ -2,7 +2,7 @@ from gameboard import Game
 from random import randrange, seed
 import numpy as np
 from basicAgent import is_number, bombsAroundCell, safeAroundCell, revealNeighbors, flagNeighbors, numNeighbors
-
+from visual import *
 
 '''
 Every square is a variable with two possible values: safe or mined.
@@ -225,6 +225,7 @@ def improvedAgent(self):
     self.show()
     
     
+    
     displayEquation()
     while (self.mine_count != countFlags(self)):
         if (gameState(self)):
@@ -247,6 +248,7 @@ def improvedAgent(self):
                 removeTile(self, tile = currentTile)
     displayEquation()
     self.show()   
+    visual(self)
    
         
         
@@ -256,8 +258,8 @@ def improvedAgent(self):
             
             
                   
-grid_size = 8
-num_mines = 3
+grid_size = 10
+num_mines = 25
 game = Game(grid_size, num_mines)
 size = game.gird_size
 game.mineindicator(size)

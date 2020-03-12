@@ -1,5 +1,5 @@
 from gameboard import Game
-
+from visual import *
 numberMines = 0
 
 
@@ -16,6 +16,7 @@ def run():
 
         gameboard.gameOptions()
         print('Current Board')
+        visual(gameboard)
         gameboard.show()
 
 
