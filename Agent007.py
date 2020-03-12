@@ -260,6 +260,7 @@ grid_size = 8
 num_mines = 3
 game = Game(grid_size, num_mines)
 size = game.gird_size
+game.mineindicator(size)
 improvedAgent(game)
 print()
 
