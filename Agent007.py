@@ -116,8 +116,8 @@ def createEquation(self,tile):
     row = tile.x
     column = tile.y
 
-    for i in [-1, 0, 1]:
-        for j in [-1, 0, 1]:
+    for i in range(-1, 2):
+        for j in range(-1, 2):
             # Current cell, ignore
             if (i == 0 and j == 0):
                 continue
