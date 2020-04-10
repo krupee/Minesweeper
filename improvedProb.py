@@ -4,35 +4,67 @@ import numpy as np
 from basicAgent import is_number, bombsAroundCell, safeAroundCell, revealNeighbors, flagNeighbors, numNeighbors
 from visual import *
 
-'''
-Every square is a variable with two possible values: safe or mined.
-Every safe square yields a ‘sum constraint’ over its 8 neighbors. For example, a square labeled 3 yields a constraint stating the square be surrounded by 3 mines.
-
-'''
-
-
-'''
-Ok so, Start with a random cell from the grid
-Check Neighbors Nearby if there is a mine
-Create constraint equation 
-
-00 01 02 03 04
-10 11 12 13 14
-20 21 22 23 24
-30 31 32 33 34
-
-Random Cell = 01
-Check if 00, 02, 10, 11, 12 is a mine?
-add cells to knowledge base and mark them as safe
-Open all the safe cells
-If any of the cell is a mine, Flag that cell
-add constraints to each of those cell, if the neigbors are all safe open all of the cells
-proceed further by check neighbors of the variables with constraints 
-'''
-
 knowledgeBase = [] # Knowledgebase containing constraint equations
 mineTiles = [] # List of tiles that are mines
 safeTiles = [] #List of tiles that are safe
+
+
+def play():
+    grid_size = 5
+    num_mines = 5
+    game = Game(grid_size, num_mines)
+    size = game.gird_size
+    game.mineindicator(size)
+    improvedAgent(game)
+
+
+def checkNeighbors(self):
+    count = 0
+    for r in range(-1, 2):
+        for c in range(-1, 2):
+            if (r == 0 and c == 0):  # Current cell
+                continue
+            if (row + r >= 0 and col + c >= 0 and row + r < self.gird_size and col + c < self.gird_size and self.grid_display,is_numeric():
+                surroundingClues.append(self.tile_grid[r][c])
+                count = count + 1
+
+
+def determineProb(self):
+    for x in range(self.gird_size):
+        for y in range(self.gird_size):
+            numClues = checkNeighbors(self)
+            addToTileProb(self)
+            for z in range(numClues):
+                arrOfClues = self.tile_grid[x][y].surroundingClues
+                total = 0
+                for prob in arrOfClues:
+                    total = total + prob
+            self.tile_grid[x][y].prob = total
+
+def assessProb(self):
+    determineProb(self)
+    min = 1
+    minProbx = 0
+    minProby = 0
+    for x in range(self.tile_grid):
+        for y in range(self.tile_grid):
+            if (self.grid_display[x][y] < min):
+                minProbx = x
+                minProby = y
+    return [minProbx, minProby]
+
+
+def addTiletoProb(self):
+    count = 0
+    for r in range(-1, 2):
+        for c in range(-1, 2):
+            if (r == 0 and c == 0):  # Current cell
+                continue
+            if (row + r >= 0 and col + c >= 0 and row + r < self.gird_size and col + c < self.gird_size and self.grid_display,is_numeric():
+                surroundingClues.append(self.tile_grid[r][c])
+    return surroundingClues
+
+
 
 def determineCell(self):
         # Getting globals
@@ -212,7 +244,6 @@ def improvedAgent(self):
     # Get clue and clues around tile to build constarint variable and equation
     # Add to knowlege base the clue of tile and a lisr of the cluesof all neighbors
     # Based on constarint vairabe and smallest of all constraint equation pick next tile
-    self.show()
 
     # Choosing random cell to begin
     temp = [randrange(self.gird_size), randrange(self.gird_size)]
@@ -222,8 +253,6 @@ def improvedAgent(self):
         createEquation(self, tile = currentTile)
         removeTile(self, tile = currentTile)
     reduceEquations(self) # Reducing equations
-    self.show()
-    
     
     
     displayEquation()
@@ -249,18 +278,7 @@ def improvedAgent(self):
     displayEquation()
     self.show()   
     #visual(self)
-        
-        
-            
-            
-            
-            
-                  
-grid_size = 5
-num_mines = 5
-game = Game(grid_size, num_mines)
-size = game.gird_size
-game.mineindicator(size)
-improvedAgent(game)
-print()
 
+
+
+play()
