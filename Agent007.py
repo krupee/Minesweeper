@@ -265,11 +265,11 @@ def improvedAgent(self):
                 removeTile(self, tile=currentTile)
     displayEquation()
     self.show()
-    visual(self)
+    # visual(self)
 
 
-grid_size = 10
-num_mines = 25
+grid_size = 5
+num_mines = 5
 game = Game(grid_size, num_mines)
 size = game.gird_size
 game.mineindicator(size)

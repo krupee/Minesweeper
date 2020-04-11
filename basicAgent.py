@@ -179,10 +179,11 @@ def basicAgent(self):
         print("You won!")
         return True
 
-                
+'''                
 grid_size = 10
 num_mines = 3
 game = Game(grid_size, num_mines)
 size = game.gird_size
 game.mineindicator(size)
 basicAgent(game)
+'''

@@ -30,6 +30,11 @@ class Game:
         self.gird_size = gird_size
         self.mine_count = mine_count
         self.visited = self.createVisited()
+
+        self.prob_grid = [[Empty]*gird_size for i in range(gird_size)]
+        for row in range(gird_size):
+          for column in range(gird_size):
+            self.prob_grid[row][column] = -1
         
         self.tile_grid = [[Empty]*gird_size for i in range(gird_size)]
         for row in range(gird_size):
