@@ -17,14 +17,19 @@ def play():
     game.mineindicator(size)
     improvedAgent(game)
 
+def getHotspot():
+    determineProb(self)
+    game = Game(grid_size, num_mines)
 
 def checkNeighbors(self):
     count = 0
+    row= 0
+    col =0
     for r in range(-1, 2):
         for c in range(-1, 2):
             if (r == 0 and c == 0):  # Current cell
                 continue
-            if (row + r >= 0 and col + c >= 0 and row + r < self.gird_size and col + c < self.gird_size and self.grid_display,is_numeric():
+            if (row + r >= 0 and col + c >= 0 and row + r < self.gird_size and col + c < self.gird_size and self.grid_display,is_numeric()):
                 surroundingClues.append(self.tile_grid[r][c])
                 count = count + 1
 
@@ -56,11 +61,14 @@ def assessProb(self):
 
 def addTiletoProb(self):
     count = 0
+    row = 0
+    col = 0
+    surroundingClues = self.board
     for r in range(-1, 2):
         for c in range(-1, 2):
             if (r == 0 and c == 0):  # Current cell
                 continue
-            if (row + r >= 0 and col + c >= 0 and row + r < self.gird_size and col + c < self.gird_size and self.grid_display,is_numeric():
+            if (row + r >= 0 and col + c >= 0 and row + r < self.gird_size and col + c < self.gird_size and self.grid_display):
                 surroundingClues.append(self.tile_grid[r][c])
     return surroundingClues
 
@@ -280,5 +288,21 @@ def improvedAgent(self):
     #visual(self)
 
 
+def costMinimzingAgent():
+    i = 0
+    j = 0
+    while (self.grid_display.isCleared):
+        if (self.grid_display[i][j].isMine):
+            flagCell(i,j)
+        if(self.grid_display[i][j].isSafe):
+            clickCell(i,j)
+            addToKB(i,j)
+        else:
+            i,j=assessProb(i,j)
+            clickCell(i,j)
+
+        i=i+1
+        j=j+1
+        
 
 play()
